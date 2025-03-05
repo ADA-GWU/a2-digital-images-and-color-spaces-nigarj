@@ -1,1 +1,32 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/sceOx6oX)
+# Overview
+
+This project demonstrates various color manipulations on images. The following functionalities are implemented:
+
+Grayscale Conversion: Convert a color image to grayscale using proper RGB coefficients and compare with an averaging method.
+
+Color Quantization: Reduce the number of colors in an image using quantization techniques.
+
+Hue, Saturation, Brightness, and Lightness Adjustments: Modifying color properties while maintaining valid ranges.
+
+CIEDE Color Closeness Algorithm: Identify similar colors using the DeltaE metric based on a selected reference color.
+
+
+# Prerequisites
+
+Ensure you have the following dependencies installed:
+
+Python 3.x
+
+OpenCV (cv2)
+
+NumPy
+
+Matplotlib
+
+scikit-image
+
+scikit-learn (for K-Means clustering)
+
+# Install Required Packages
+
+Run the following command: pip install opencv-python numpy matplotlib scikit-image scikit-learn
