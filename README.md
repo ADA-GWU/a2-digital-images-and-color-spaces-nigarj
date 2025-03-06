@@ -92,7 +92,7 @@ Each script saves the modified images in its respective output folder (`output_*
 
 
 ## Results of the project 
-You may find the qualitative results of the whole project in the additional "Project_Findings" file.
+You may find the qualitative results of the whole project in the additional "Project_Findings.pdf" file.
 
 
 
