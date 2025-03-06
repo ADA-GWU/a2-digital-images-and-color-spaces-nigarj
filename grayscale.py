@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 import os
 
 # Function to create the output folder if it doesn't exist
-def create_output_folder():
-    output_dir = "output"
+def create_output_folder(task_name):
+    output_dir = f"output_{task_name}"
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     return output_dir
@@ -46,7 +46,7 @@ else:
     fig.text(0.5, 0.02, f"Mean Squared Error (MSE): {mse:.2f}", ha="center", fontsize=12, color='red')
 
     # Automatically save images
-    output_dir = create_output_folder()
+    output_dir = create_output_folder("grayscale")
     cv2.imwrite(f"{output_dir}/grayscale_weighted.png", gray_weighted)
     cv2.imwrite(f"{output_dir}/grayscale_avg.png", gray_avg)
 

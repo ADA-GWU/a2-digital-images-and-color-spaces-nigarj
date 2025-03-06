@@ -5,14 +5,15 @@ from skimage.color import deltaE_ciede2000, rgb2lab
 import os
 
 # Function to create the output folder if it doesn't exist
-def create_output_folder():
-    output_dir = "output"
+def create_output_folder(task_name):
+    output_dir = f"output_{task_name}"
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     return output_dir
 
+
 # Loading the image
-image_path = "input_images/adacenter.jpeg"  # Change this to desired image path
+image_path = "input_images/banana.jpeg"  # Change this to desired image path
 image = cv2.imread(image_path)
 
 if image is None:
@@ -57,7 +58,7 @@ def mouse_callback(event, x, y, flags, param):
         plt.show()
 
         # Automatically save the overlay image
-        output_dir = create_output_folder()
+        output_dir = create_output_folder("color_closeness")
         cv2.imwrite(f"{output_dir}/highlighted_image.png", cv2.cvtColor(overlay, cv2.COLOR_RGB2BGR))  # Save in BGR format
         print("Highlighted image saved in 'output' folder")
 

@@ -6,11 +6,12 @@ from sklearn.cluster import KMeans
 import os
 
 # Function to create the output folder if it doesn't exist
-def create_output_folder():
-    output_dir = "output"
+def create_output_folder(task_name):
+    output_dir = f"output_{task_name}"
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     return output_dir
+
 
 # Loading the image
 image_path = "input_images/adacenter.jpeg"  # Change this to desired image path
@@ -54,7 +55,7 @@ else:
     plt.show()
 
     # Automatically save the quantized images
-    output_dir = create_output_folder()
+    output_dir = create_output_folder("color_quantization")
 
     # Saving the quantized images with logical filenames
     cv2.imwrite(f"{output_dir}/original_image.png", cv2.cvtColor(image_rgb, cv2.COLOR_RGB2BGR))

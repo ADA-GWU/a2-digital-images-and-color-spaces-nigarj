@@ -5,8 +5,8 @@ from matplotlib.widgets import Slider, Button
 import os
 
 # Function to create the output folder if it doesn't exist
-def create_output_folder():
-    output_dir = "output"
+def create_output_folder(task_name):
+    output_dir = f"output_{task_name}"
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     return output_dir
@@ -93,9 +93,6 @@ def update(val):
 
     fig.canvas.draw_idle()
 
-    # Save the adjusted image
-    save_adjusted_image(hue_val, saturation_val, brightness_val, lightness_val, adjusted_image)
-
 # Connect sliders to update function
 slider_hue.on_changed(update)
 slider_saturation.on_changed(update)
@@ -116,15 +113,29 @@ def reset_all(event):
 
 reset_button.on_clicked(reset_all)
 
-# Function to save the adjusted image
-def save_adjusted_image(hue_val, saturation_val, brightness_val, lightness_val, adjusted_image):
-    output_dir = create_output_folder()
+# Function to save the final adjusted image before closing the window
+def save_final_image(hue_val, saturation_val, brightness_val, lightness_val, adjusted_image):
+    output_dir = create_output_folder("hsb")
 
     # Generate a filename based on the current slider values
-    filename = f"output/hue_{hue_val}_sat_{saturation_val}_bright_{brightness_val}_light_{lightness_val}.png"
+    filename = f"{output_dir}/hue_{hue_val}_sat_{saturation_val}_bright_{brightness_val}_light_{lightness_val}.png"
 
     # Save the adjusted image
     cv2.imwrite(filename, cv2.cvtColor(adjusted_image, cv2.COLOR_RGB2BGR))
     print(f"Image saved as: {filename}")
+
+# Event for closing the window
+def on_close(event):
+    # Save the final adjusted image when closing
+    hue_val = slider_hue.val
+    saturation_val = slider_saturation.val
+    brightness_val = slider_brightness.val
+    lightness_val = slider_lightness.val
+
+    adjusted_image = apply_color_adjustments(hue_val, saturation_val, brightness_val, lightness_val)
+    save_final_image(hue_val, saturation_val, brightness_val, lightness_val, adjusted_image)
+
+# Connect the window close event to the save function
+fig.canvas.mpl_connect('close_event', on_close)
 
 plt.show()
