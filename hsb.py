@@ -2,6 +2,14 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button
+import os
+
+# Function to create the output folder if it doesn't exist
+def create_output_folder():
+    output_dir = "output"
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    return output_dir
 
 # Loading the image
 image_path = "input_images/adacenter.jpeg"
@@ -11,7 +19,7 @@ original_bgr = cv2.imread(image_path)
 original_rgb = cv2.cvtColor(original_bgr, cv2.COLOR_BGR2RGB)  
 original_hls = cv2.cvtColor(original_bgr, cv2.COLOR_BGR2HLS).astype(np.float32)
 
-#  UI SETUP: FIGURE & IMAGE DISPLAY 
+# UI SETUP: FIGURE & IMAGE DISPLAY
 fig, ax = plt.subplots(figsize=(10, 6))
 plt.subplots_adjust(left=0.25, right=0.95, bottom=0.1, top=0.9)
 
@@ -19,7 +27,7 @@ plt.subplots_adjust(left=0.25, right=0.95, bottom=0.1, top=0.9)
 image_display = ax.imshow(original_rgb)
 ax.axis("off")
 
-#  UI CONTROLS: SLIDERS 
+# UI CONTROLS: SLIDERS
 slider_positions = {
     "hue": [0.03, 0.6, 0.2, 0.03],
     "saturation": [0.03, 0.5, 0.2, 0.03],
@@ -35,7 +43,7 @@ slider_saturation = Slider(ax=fig.add_axes(slider_positions["saturation"]), labe
 slider_brightness = Slider(ax=fig.add_axes(slider_positions["brightness"]), label="B", valmin=0.1, valmax=3, valinit=1)
 slider_lightness = Slider(ax=fig.add_axes(slider_positions["lightness"]), label="L", valmin=0.1, valmax=3, valinit=1)
 
-#  FUNCTION TO CHANGE SLIDER COLOR 
+# FUNCTION TO CHANGE SLIDER COLOR
 def update_slider_color(hue_value):
     """
     Converts the given Hue value (-180 to 180) into an RGB color and updates the slider's track color.
@@ -50,7 +58,7 @@ def update_slider_color(hue_value):
     slider_hue.poly.set_color(rgb_color)
     fig.canvas.draw_idle()
 
-#  IMAGE PROCESSING FUNCTION 
+# IMAGE PROCESSING FUNCTION
 def apply_color_adjustments(hue_val, saturation_val, brightness_val, lightness_val):
     modified_hls = original_hls.copy()
 
@@ -70,7 +78,7 @@ def apply_color_adjustments(hue_val, saturation_val, brightness_val, lightness_v
 
     return final_image
 
-#  CALLBACK FUNCTION 
+# CALLBACK FUNCTION
 def update(val):
     hue_val = slider_hue.val
     saturation_val = slider_saturation.val
@@ -85,13 +93,16 @@ def update(val):
 
     fig.canvas.draw_idle()
 
+    # Save the adjusted image
+    save_adjusted_image(hue_val, saturation_val, brightness_val, lightness_val, adjusted_image)
+
 # Connect sliders to update function
 slider_hue.on_changed(update)
 slider_saturation.on_changed(update)
 slider_brightness.on_changed(update)
 slider_lightness.on_changed(update)
 
-#  RESET BUTTON 
+# RESET BUTTON
 reset_button_ax = fig.add_axes([0.03, 0.15, 0.2, 0.05])
 reset_button = Button(reset_button_ax, "Reset", color='lightgray', hovercolor='blue')
 
@@ -104,5 +115,16 @@ def reset_all(event):
     fig.canvas.draw_idle()
 
 reset_button.on_clicked(reset_all)
+
+# Function to save the adjusted image
+def save_adjusted_image(hue_val, saturation_val, brightness_val, lightness_val, adjusted_image):
+    output_dir = create_output_folder()
+
+    # Generate a filename based on the current slider values
+    filename = f"output/hue_{hue_val}_sat_{saturation_val}_bright_{brightness_val}_light_{lightness_val}.png"
+
+    # Save the adjusted image
+    cv2.imwrite(filename, cv2.cvtColor(adjusted_image, cv2.COLOR_RGB2BGR))
+    print(f"Image saved as: {filename}")
 
 plt.show()

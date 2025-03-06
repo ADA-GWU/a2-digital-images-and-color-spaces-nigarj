@@ -2,6 +2,14 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 from skimage.color import deltaE_ciede2000, rgb2lab
+import os
+
+# Function to create the output folder if it doesn't exist
+def create_output_folder():
+    output_dir = "output"
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    return output_dir
 
 # Loading the image
 image_path = "input_images/adacenter.jpeg"  # Change this to desired image path
@@ -23,7 +31,7 @@ def mouse_callback(event, x, y, flags, param):
         ref_color = lab_image[y, x]  # Get the LAB color of the clicked pixel
         print(f"Reference color at ({x}, {y}): {ref_color}")
 
-        # Vectorized DeltaE calculation using broadcasting (for quick calclation)
+        # Vectorized DeltaE calculation using broadcasting (for quick calculation)
         ref_color_reshaped = ref_color.reshape(1, 1, 3) 
         # Compute DeltaE for all pixels 
         delta_e_map = deltaE_ciede2000(ref_color_reshaped, lab_image)  
@@ -47,6 +55,11 @@ def mouse_callback(event, x, y, flags, param):
         axes[1].imshow(overlay)
         axes[1].set_title("Color Closeness Highlighted")
         plt.show()
+
+        # Automatically save the overlay image
+        output_dir = create_output_folder()
+        cv2.imwrite(f"{output_dir}/highlighted_image.png", cv2.cvtColor(overlay, cv2.COLOR_RGB2BGR))  # Save in BGR format
+        print("Highlighted image saved in 'output' folder")
 
 # Display the image in an OpenCV window
 cv2.imshow('Click on the reference pixel', image)
