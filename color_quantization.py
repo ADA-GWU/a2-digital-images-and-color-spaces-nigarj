@@ -14,7 +14,7 @@ def create_output_folder(task_name):
 
 
 # Loading the image
-image_path = "input_images/adacenter.jpeg"  # Change this to desired image path
+image_path = "input_images/colorful.jpeg"  # Change this to desired image path
 image = cv2.imread(image_path)
 
 if image is None:
