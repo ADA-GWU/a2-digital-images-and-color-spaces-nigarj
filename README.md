@@ -82,8 +82,14 @@ Each script saves the modified images in its respective output folder (`output_*
 
 ## Notes
 - Ensure all images are stored in the `input_images/` folder.
-- Adjust parameters in the scripts if needed.
 - When running `color_closeness.py`, a **mouse click** on the displayed image is required to pick a reference color. If you use touchpad make sure you actually click, not just tap.
+- When running `color_quantization.py`, wait a few minutes to see the output, don't panic it will work :)
+
+## Adjusting parameters:
+- For each script, you may try different input images from input_images folder.
+- For `color_closeness.py` you may adjust the threshold value.
+- For `color_quantization.py` you may adjust K value for k-means clustering and levels for uniform quantization.
+
 
 
 
