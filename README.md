@@ -88,9 +88,11 @@ Each script saves the modified images in its respective output folder (`output_*
 ## Adjusting parameters:
 - For each script, you may try different input images from input_images folder.
 - For `color_closeness.py` you may adjust the threshold value.
-- For `color_quantization.py` you may adjust K value for k-means clustering and levels for uniform quantization.
+- For `color_quantization.py` you may adjust K value for k-means clustering and levels for uniform quantization in the script.
 
 
+## Results of the project 
+You may find the qualitative results of the whole project in the additional "Project_Findings" file.
 
 
 
